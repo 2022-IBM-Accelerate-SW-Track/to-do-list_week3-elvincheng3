@@ -35,6 +35,17 @@ afterEach(() => {
 
  test('test that App component can be deleted thru checkbox', () => {
   render(<App />);
+  const inputTask = screen.getByRole('textbox', {name: /Add New Item/i});
+  const inputDate = screen.getByPlaceholderText("mm/dd/yyyy");
+  const element = screen.getByRole('button', {name: /Add/i});
+  const dueDate = "12/30/2023";
+  fireEvent.change(inputTask, { target: { value: "History Test"}});
+  fireEvent.change(inputDate, { target: { value: dueDate}});
+  fireEvent.click(element);
+  const checkBox = screen.getByRole('checkbox');
+  fireEvent.click(checkBox);
+  expect(screen.queryByText("Homework")).not.toBeInTheDocument();
+  expect(screen.queryByText(dueDate)).not.toBeInTheDocument();
  });
 
 
